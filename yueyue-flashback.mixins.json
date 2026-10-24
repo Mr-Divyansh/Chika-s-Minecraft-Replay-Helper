@@ -1,5 +1,5 @@
 {
- "required":true,"package":"yueyue.flashback.mixin","compatibilityLevel":"JAVA_26",
+ "required":true,"package":"yueyue.flashback.mixin","compatibilityLevel":"JAVA_25",
  "plugin":"yueyue.flashback.UiMixinPlugin",
  "client":["GuiCaptureMixin","RecorderMixin","SaverQueueMixin","ReplayGuiMixin","ExportWindowMixin","ExportSettingsMixin","CameraMixin","HudInvoker"],
  "injectors":{"defaultRequire":1}
