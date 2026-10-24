@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "id": "yueyue_flashback_firstperson",
+  "version": "1.0.0+mc26.1.2",
+  "name": "Yueyue Flashback Firstperson Extension Mod",
+  "authors": ["Yisibite"],
+  "license": "MIT",
+  "environment": "client",
+  "description": "For Flashback, add real HUD, inventory and container interface recording, can choose whether to export with video.",
+  "icon": "assets/yueyue_flashback/Chika's Minecraft Replay Helper.png",
+  "entrypoints": {
+    "client": ["yueyue.flashback.UiBootstrap"]
+  },
+  "mixins": ["yueyue-flashback.mixins.json"],
+  "depends": {
+    "minecraft": "26.1.2",
+    "fabricloader": ">=0.19.3",
+    "java": ">=26"
+  },
+  "suggests": {
+    "flashback": "0.43.6"
+  }
+}
