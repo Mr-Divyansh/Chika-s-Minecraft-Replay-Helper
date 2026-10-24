@@ -7,7 +7,7 @@
   "license": "MIT",
   "environment": "client",
   "description": "For Flashback, add real HUD, inventory and container interface recording, can choose whether to export with video.",
-  "icon": "assets/yueyue_flashback/Chika's Minecraft Replay Helper.png",
+  "icon": "assets/yueyue_flashback/icon.png",
   "entrypoints": {
     "client": ["yueyue.flashback.UiBootstrap"]
   },
