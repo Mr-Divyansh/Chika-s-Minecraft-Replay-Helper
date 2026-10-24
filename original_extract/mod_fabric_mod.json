@@ -1,0 +1,10 @@
+{
+ "schemaVersion":1,"id":"yueyue_flashback_firstperson","version":"1.0.0+mc26.1.2",
+ "name":"月月 Flashback 第一人称扩展mod","authors":["Yisibite"],"license":"MIT",
+ "environment":"client","description":"为 Flashback 增加真实 HUD、背包和容器界面记录，可选择是否随视频导出。",
+ "icon":"assets/yueyue_flashback/Chika's Minecraft Replay Helper.png",
+ "entrypoints":{"client":["yueyue.flashback.UiBootstrap"]},
+ "mixins":["yueyue-flashback.mixins.json"],
+ "depends":{"minecraft":"26.1.2","fabricloader":">=0.19.3","java":">=26"},
+ "suggests":{"flashback":"0.43.6"}
+}
