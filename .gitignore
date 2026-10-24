@@ -1,0 +1,42 @@
+# Temporary and error dump files
+tsc.err
+tsc.out
+tsc2.out
+tsc3.out
+tsc4.out
+tsc5.out
+
+# Backup and mod-related files
+backup_mod.json
+mod.b64
+mod.jar
+mod_decoded.json
+mod_fabric_mod.json
+
+# JAR listing files
+jar_listing.txt
+new_jar_listing.txt
+original_jar_listing.txt
+
+# Script files (project-internal, not for distribution)
+repack_jar.py
+update_mod.py
+edit_script.ps1
+env-filter.sh
+write_html.ps1
+
+# Temp directories
+temp/
+mod_new/
+mod_repack/
+mod_works/
+
+# Old files
+README_old.md
+Chika's Minecraft Replay Helper.png
+
+# Generated/computed data
+shadow_weaver_tree.csv
+
+# Original source JAR (kept as reference but not distributed as part of this mod)
+yueyue-flashback-firstperson-1.0.0+mc26.3.jar

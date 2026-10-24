@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "id": "yueyue_flashback_firstperson",
-  "version": "1.0.0+mc26.1.2",
-  "name": "Yueyue Flashback Firstperson Extension Mod",
+  "version": "1.1.0+mc26.1.2",
+  "name": "D Web Studio — Chika Replay Helper",
   "authors": ["Yisibite"],
   "license": "MIT",
   "environment": "client",
@@ -15,7 +15,7 @@
   "depends": {
     "minecraft": "26.1.2",
     "fabricloader": ">=0.19.3",
-    "java": ">=26"
+    "java": ">=25"
   },
   "suggests": {
     "flashback": "0.43.6"
