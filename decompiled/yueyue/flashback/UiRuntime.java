@@ -65,6 +65,14 @@ public final class UiRuntime {
     public static void initialize() {
         ActionRegistry.register((Action)UiAction.INSTANCE);
         ClientTickEvents.END_CLIENT_TICK.register(client -> UiRuntime.updateCamera());
+        try {
+            com.moulberry.flashback.configuration.FlashbackConfigV1 config = Flashback.getConfig();
+            if (config != null && config.recording.localPlayerUpdatesPerSecond < 40) {
+                config.recording.localPlayerUpdatesPerSecond = 40;
+            }
+        }
+        catch (RuntimeException ignored) {
+        }
     }
 
     public static Object recordingSession() {
