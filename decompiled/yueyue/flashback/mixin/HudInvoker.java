@@ -11,12 +11,12 @@
 package yueyue.flashback.mixin;
 
 import net.minecraft.client.DeltaTracker;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
-import net.minecraft.client.gui.Hud;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Invoker;
 
-@Mixin(value={Hud.class})
+@Mixin(value={Gui.class})
 public interface HudInvoker {
     @Invoker(value="extractCrosshair")
     public void yueyue$crosshair(GuiGraphicsExtractor var1, DeltaTracker var2);

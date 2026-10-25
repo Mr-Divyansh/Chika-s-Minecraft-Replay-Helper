@@ -9,7 +9,6 @@ package yueyue.flashback;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
-import yueyue.flashback.UiRuntime;
 
 public final class UiBootstrap
 implements ClientModInitializer {

@@ -4,13 +4,6 @@
 package yueyue.flashback.capture;
 
 public record UiImage(long serial, int width, int height, byte[] png, boolean screenOpen, boolean crosshair, Object session) {
-    private final long serial;
-    private final int width;
-    private final int height;
-    private final byte[] png;
-    private final boolean screenOpen;
-    private final boolean crosshair;
-    private final Object session;
 
     public UiImage(long serial, int width, int height, byte[] png, boolean screenOpen, boolean crosshair, Object session) {
         this.serial = serial;

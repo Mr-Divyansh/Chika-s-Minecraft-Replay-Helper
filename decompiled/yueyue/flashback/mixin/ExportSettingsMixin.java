@@ -49,7 +49,7 @@ implements UiExportOptions {
     @Inject(method={"noGui"}, at={@At(value="HEAD")}, cancellable=true)
     private void yueyue$cleanOutput(CallbackInfoReturnable<Boolean> cir) {
         if (!this.yueyue$include) {
-            cir.setReturnValue((Object)true);
+            cir.setReturnValue(true);
         }
     }
 }

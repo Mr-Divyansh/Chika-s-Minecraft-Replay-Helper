@@ -21,9 +21,7 @@ import com.mojang.blaze3d.pipeline.RenderTarget;
 import com.mojang.blaze3d.pipeline.TextureTarget;
 import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.renderpearl.api.GpuFormat;
-import com.mojang.renderpearl.api.buffers.GpuBuffer;
-import com.mojang.renderpearl.api.buffers.GpuBufferSlice;
+import com.mojang.blaze3d.buffers.GpuBuffer;
 import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
 import java.io.ByteArrayOutputStream;
@@ -35,21 +33,16 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 import javax.imageio.ImageIO;
 import net.minecraft.client.Minecraft;
-import org.joml.Vector4f;
-import org.joml.Vector4fc;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import yueyue.flashback.UiConfig;
 import yueyue.flashback.UiRuntime;
-import yueyue.flashback.capture.UiImage;
 
 public final class UiCapture {
     public static final int MAX_DIMENSION = 4096;
     public static final long MAX_PIXELS = 0x870000L;
     public static final int MAX_PNG_BYTES = 0x2000000;
-    private static final long FRAME_INTERVAL_NANOS = 50000000L;
     private static final Logger LOGGER = LoggerFactory.getLogger((String)"YueyueUiCapture");
-    private static final Vector4f TRANSPARENT = new Vector4f();
     private static final AtomicBoolean DOWNLOAD_PENDING = new AtomicBoolean();
     private static final AtomicLong SERIAL = new AtomicLong();
     private static final AtomicInteger FAILURES = new AtomicInteger();
@@ -104,7 +97,7 @@ public final class UiCapture {
         if (now - lastCaptureNanos < 50000000L || DOWNLOAD_PENDING.get()) {
             return;
         }
-        RenderTarget main = Minecraft.getInstance().gameRenderer.mainRenderTarget();
+        RenderTarget main = Minecraft.getInstance().getMainRenderTarget();
         int width = main.width;
         int height = main.height;
         if (!UiCapture.validDimensions(width, height)) {
@@ -117,16 +110,16 @@ public final class UiCapture {
                     frameTarget.destroyBuffers();
                     frameTarget = null;
                 }
-                frameTarget = new TextureTarget("Yueyue recorded UI", width, height, GpuFormat.RGBA8_UNORM, GpuFormat.D32_FLOAT);
+                frameTarget = new TextureTarget("Yueyue recorded UI", width, height, true);
             }
-            RenderSystem.getDevice().createCommandEncoder().clearColorAndDepthTextures(frameTarget.getColorTexture(), (Vector4fc)TRANSPARENT, frameTarget.getDepthTexture(), 0.0);
+            RenderSystem.getDevice().createCommandEncoder().clearColorAndDepthTextures(frameTarget.getColorTexture(), 0, frameTarget.getDepthTexture(), 0.0);
             lastCaptureNanos = now;
             frameGeneration = generation;
             frameSession = session;
             Minecraft client = Minecraft.getInstance();
             Window window = client.getWindow();
-            frameScreenOpen = client.gui.screen() != null;
-            frameCrosshair = !frameScreenOpen && !client.gui.hud.isHidden() && client.options.getCameraType().isFirstPerson();
+            frameScreenOpen = client.screen != null;
+            frameCrosshair = !frameScreenOpen && !client.options.hideGui && client.options.getCameraType().isFirstPerson();
             frameMouseX = (int)Math.floor(client.mouseHandler.xpos() * (double)width / (double)Math.max(1, window.getScreenWidth()));
             frameMouseY = (int)Math.floor(client.mouseHandler.ypos() * (double)height / (double)Math.max(1, window.getScreenHeight()));
             frameCursorScale = Math.max(1, Math.min(3, window.getGuiScale() / 2));
@@ -168,7 +161,7 @@ public final class UiCapture {
         try {
             GpuBuffer ownedBuffer = buffer = RenderSystem.getDevice().createBuffer(() -> "Yueyue UI readback", 9, 4L * (long)width * (long)height);
             RenderSystem.getDevice().createCommandEncoder().copyTextureToBuffer(frameTarget.getColorTexture(), ownedBuffer, 0L, () -> {
-                try (GpuBufferSlice.MappedView mapped = ownedBuffer.map(true, false);){
+                try (GpuBuffer.MappedView mapped = RenderSystem.getDevice().createCommandEncoder().mapBuffer(ownedBuffer, true, false);){
                     if (!UiCapture.sessionCurrent(session, sampledGeneration)) {
                         return;
                     }
@@ -279,9 +272,9 @@ public final class UiCapture {
                         int targetX = frame.mouseX() + x * scale + dx;
                         if (targetX < 0 || targetX >= frame.width()) continue;
                         int offset = ((frame.height() - targetY - 1) * frame.width() + targetX) * 4;
-                        frame.rgba()[offset] = color;
-                        frame.rgba()[offset + 1] = color;
-                        frame.rgba()[offset + 2] = color;
+                        frame.rgba()[offset] = (byte)color;
+                        frame.rgba()[offset + 1] = (byte)color;
+                        frame.rgba()[offset + 2] = (byte)color;
                         frame.rgba()[offset + 3] = -1;
                     }
                 }

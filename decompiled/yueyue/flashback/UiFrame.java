@@ -11,12 +11,6 @@ import java.util.UUID;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 
 public record UiFrame(UUID player, int width, int height, boolean screenOpen, boolean crosshair, byte[] png) {
-    private final UUID player;
-    private final int width;
-    private final int height;
-    private final boolean screenOpen;
-    private final boolean crosshair;
-    private final byte[] png;
 
     public UiFrame(UUID player, int width, int height, boolean screenOpen, boolean crosshair, byte[] png) {
         this.player = player;

@@ -92,7 +92,7 @@ public abstract class RecorderMixin {
         }
         LocalPlayer player = Minecraft.getInstance().player;
         UUID uuid = player == null ? new UUID(0L, 0L) : player.getUUID();
-        UiFrame uiFrame = frame = image == null ? new UiFrame(uuid, 0, 0, false, false, new byte[0]) : new UiFrame(uuid, image.width(), image.height(), image.screenOpen(), image.crosshair(), image.png());
+        frame = image == null ? new UiFrame(uuid, 0, 0, false, false, new byte[0]) : new UiFrame(uuid, image.width(), image.height(), image.screenOpen(), image.crosshair(), image.png());
         if (!snapshot && !this.yueyue$pending.compareAndSet(false, true)) {
             return;
         }

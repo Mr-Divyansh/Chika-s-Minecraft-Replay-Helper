@@ -15,8 +15,6 @@ import com.moulberry.flashback.playback.ReplayServer;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.resources.Identifier;
 import org.slf4j.LoggerFactory;
-import yueyue.flashback.UiFrame;
-import yueyue.flashback.UiRuntime;
 
 public final class UiAction
 implements Action {

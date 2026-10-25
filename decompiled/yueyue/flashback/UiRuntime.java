@@ -47,10 +47,6 @@ import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Entity;
 import org.slf4j.LoggerFactory;
-import yueyue.flashback.UiAction;
-import yueyue.flashback.UiConfig;
-import yueyue.flashback.UiExportOptions;
-import yueyue.flashback.UiFrame;
 import yueyue.flashback.capture.UiCapture;
 
 public final class UiRuntime {
@@ -100,20 +96,19 @@ public final class UiRuntime {
         }
         if (Flashback.EXPORT_JOB != null) {
             ExportSettings settings = Flashback.EXPORT_JOB.getSettings();
-            return ((UiExportOptions)settings).yueyue$include() && !settings.noGui() && !settings.depthMap();
+            return ((UiExportOptions)(Object)settings).yueyue$include() && !settings.noGui() && !settings.depthMap();
         }
         return UiConfig.current.preview;
     }
 
     public static void updateCamera() {
-        boolean follow;
+        boolean follow = false;
         Minecraft client = Minecraft.getInstance();
         UiFrame frame = UiRuntime.currentFrame();
-        boolean bl = Flashback.isInReplay() && frame != null && (Flashback.EXPORT_JOB == null ? UiConfig.current.follow : ((UiExportOptions)Flashback.EXPORT_JOB.getSettings()).yueyue$follow()) ? true : (follow = false);
+        follow = Flashback.isInReplay() && frame != null && (Flashback.EXPORT_JOB == null ? UiConfig.current.follow : ((UiExportOptions)(Object)Flashback.EXPORT_JOB.getSettings()).yueyue$follow());
         if (follow && frame != null && client.level != null) {
-            Entity entity;
             ReplayServer replay = Flashback.getReplayServer();
-            Entity entity2 = entity = replay == null ? null : client.level.getEntity(replay.getLocalPlayerId());
+            Entity entity = replay == null ? null : client.level.getEntity(replay.getLocalPlayerId());
             if (entity == null || entity == client.player) {
                 entity = client.level.players().stream().filter(player -> player != client.player && player.getUUID().equals(frame.player())).findFirst().orElse(null);
             }

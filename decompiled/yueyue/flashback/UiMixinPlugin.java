@@ -13,7 +13,6 @@ import java.util.Set;
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
-import yueyue.flashback.UiBootstrap;
 
 public final class UiMixinPlugin
 implements IMixinConfigPlugin {

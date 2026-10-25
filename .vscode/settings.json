@@ -1,0 +1,16 @@
+{
+  "java.project.referencedLibraries": [
+    "C:/Users/divy1/AppData/Roaming/.fastclient/**/*.jar"
+  ],
+  "java.project.sourcePaths": [
+    "decompiled"
+  ],
+  "java.configuration.runtimes": [
+    {
+      "name": "JavaSE-25",
+      "path": "C:/Program Files/Microsoft/jdk-25.0.4.101-hotspot",
+      "default": true
+    }
+  ],
+  "java.configuration.updateBuildConfiguration": "automatic"
+}
