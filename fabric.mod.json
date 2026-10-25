@@ -18,6 +18,6 @@
     "java": ">=25"
   },
   "suggests": {
-    "flashback": "0.43.6"
+    "flashback": "0.43.3"
   }
 }
