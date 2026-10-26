@@ -94,7 +94,7 @@ public final class UiCapture {
             return;
         }
         long now = System.nanoTime();
-        if (now - lastCaptureNanos < 8000000L || DOWNLOAD_PENDING.get()) {
+        if (now - lastCaptureNanos < 4000000L || DOWNLOAD_PENDING.get()) {
             return;
         }
         RenderTarget main = Minecraft.getInstance().getMainRenderTarget();
@@ -119,7 +119,7 @@ public final class UiCapture {
             Minecraft client = Minecraft.getInstance();
             Window window = client.getWindow();
             frameScreenOpen = client.screen != null;
-            frameCrosshair = !frameScreenOpen && !client.options.hideGui && client.options.getCameraType().isFirstPerson();
+            frameCrosshair = false;
             frameMouseX = (int)Math.floor(client.mouseHandler.xpos() * (double)width / (double)Math.max(1, window.getScreenWidth()));
             frameMouseY = (int)Math.floor(client.mouseHandler.ypos() * (double)height / (double)Math.max(1, window.getScreenHeight()));
             frameCursorScale = Math.max(1, Math.min(3, window.getGuiScale() / 2));
@@ -233,14 +233,11 @@ public final class UiCapture {
                 previous = null;
                 continue;
             }
-            if (frame.screenOpen()) {
-                UiCapture.drawCursor(frame);
-            }
             if (UiCapture.samePixels(previous, frame)) continue;
             try {
                 byte[] png = UiCapture.encodePng(frame.width(), frame.height(), frame.rgba());
                 if (!UiCapture.sessionCurrent(frame.session(), frame.generation())) continue;
-                latest = new UiImage(frame.serial(), frame.width(), frame.height(), png, frame.screenOpen(), frame.crosshair(), frame.session());
+                latest = new UiImage(frame.serial(), frame.width(), frame.height(), png, frame.screenOpen(), frame.crosshair(), frame.mouseX(), frame.mouseY(), frame.cursorScale(), frame.session());
                 FAILURES.set(0);
                 previous = frame;
             }

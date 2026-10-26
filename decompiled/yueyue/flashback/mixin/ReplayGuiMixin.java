@@ -37,9 +37,6 @@ public abstract class ReplayGuiMixin {
             return;
         }
         if (UiRuntime.extract(graphics, frame)) {
-            if (frame.crosshair()) {
-                ((HudInvoker)this).yueyue$crosshair(graphics, delta);
-            }
             ci.cancel();
         }
     }

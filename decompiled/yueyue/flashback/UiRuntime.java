@@ -58,6 +58,16 @@ public final class UiRuntime {
     private static CameraType previousType;
     private static boolean following;
     private static int followingId;
+    private static UiFrame lastMouseFrame;
+    private static boolean hasMouseSample;
+    private static int currentMouseX;
+    private static int currentMouseY;
+    private static int currentCursorScale;
+    private static int previousMouseX;
+    private static int previousMouseY;
+    private static int previousCursorScale;
+    private static long currentMouseTime;
+    private static long previousMouseTime;
 
     private UiRuntime() {
     }
@@ -87,6 +97,29 @@ public final class UiRuntime {
 
     public static void accept(ReplayServer owner, UiFrame frame) {
         playback = new Playback(owner, frame);
+        if (frame != null && frame.screenOpen() && frame.width() > 0 && frame != lastMouseFrame) {
+            if (hasMouseSample) {
+                previousMouseX = currentMouseX;
+                previousMouseY = currentMouseY;
+                previousCursorScale = currentCursorScale;
+                previousMouseTime = currentMouseTime;
+            }
+            currentMouseX = frame.mouseX();
+            currentMouseY = frame.mouseY();
+            currentCursorScale = Math.max(1, frame.cursorScale());
+            currentMouseTime = System.nanoTime();
+            if (!hasMouseSample) {
+                previousMouseX = currentMouseX;
+                previousMouseY = currentMouseY;
+                previousCursorScale = currentCursorScale;
+                previousMouseTime = currentMouseTime;
+                hasMouseSample = true;
+            }
+            lastMouseFrame = frame;
+        } else if (frame == null || !frame.screenOpen()) {
+            hasMouseSample = false;
+            lastMouseFrame = null;
+        }
     }
 
     public static UiFrame currentFrame() {
@@ -216,7 +249,39 @@ public final class UiRuntime {
             graphics.blurBeforeThisStratum();
         }
         graphics.blit(RenderPipelines.GUI_TEXTURED_PREMULTIPLIED_ALPHA, TEXTURE, (width - drawnWidth) / 2, (height - drawnHeight) / 2, 0.0f, 0.0f, drawnWidth, drawnHeight, frame.width(), frame.height(), frame.width(), frame.height());
+        if (frame.screenOpen() && hasMouseSample) {
+            long now = System.nanoTime();
+            double t = 1.0D;
+            if (currentMouseTime > previousMouseTime) {
+                t = (double)(now - previousMouseTime) / (double)(currentMouseTime - previousMouseTime);
+            }
+            if (t < 0.0D) t = 0.0D;
+            if (t > 1.0D) t = 1.0D;
+            int mx = (int)Math.round(previousMouseX + (currentMouseX - previousMouseX) * t);
+            int my = (int)Math.round(previousMouseY + (currentMouseY - previousMouseY) * t);
+            int offsetX = (width - drawnWidth) / 2;
+            int offsetY = (height - drawnHeight) / 2;
+            int guiX = offsetX + (int)Math.round(mx * scale);
+            int guiY = offsetY + (int)Math.round(my * scale);
+            UiRuntime.drawCursor(graphics, guiX, guiY, currentCursorScale);
+        }
         return true;
+    }
+
+    private static void drawCursor(GuiGraphicsExtractor graphics, int baseX, int baseY, int scale) {
+        String[] shape = new String[]{"X..........", "XX.........", "XWX........", "XWWX.......", "XWWWX......", "XWWWWX.....", "XWWWWWX....", "XWWWWWWX...", "XWWWWWWWX..", "XWWWWXXXXX.", "XWWXWX.....", "XWX.WX.....", "XX..XWX....", "X...XWX....", ".....XX...."};
+        for (int y = 0; y < shape.length; ++y) {
+            for (int x = 0; x < shape[y].length(); ++x) {
+                char pixel = shape[y].charAt(x);
+                if (pixel == '.') continue;
+                int color = pixel == 'W' ? 0xFFFFFFFF : 0xFF000000;
+                for (int dy = 0; dy < scale; ++dy) {
+                    for (int dx = 0; dx < scale; ++dx) {
+                        graphics.fill(baseX + x * scale + dx, baseY + y * scale + dy, baseX + x * scale + dx + 1, baseY + y * scale + dy + 1, color);
+                    }
+                }
+            }
+        }
     }
 
     private static void releaseTexture() {
