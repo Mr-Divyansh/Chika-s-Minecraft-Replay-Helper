@@ -1,6 +1,6 @@
 import zipfile, shutil, os, json
 base='D-Web-Studio-Chika-Replay-Helper-1.2.0+mc26.1.2.jar'
-work='jar_work_123'
+work='jar_work_124'
 if os.path.exists(work): shutil.rmtree(work)
 os.makedirs(work)
 with zipfile.ZipFile(base,'r') as z:
@@ -17,9 +17,9 @@ for rel in ['fabric.mod.json','yueyue-flashback.mixins.json']:
     if os.path.exists(rel):
         shutil.copy2(rel, os.path.join(work, rel))
 mod=json.load(open(os.path.join(work,'fabric.mod.json'),encoding='utf-8'))
-mod['version']='1.2.3+mc26.1.2'
+mod['version']='1.2.4+mc26.1.2'
 json.dump(mod,open(os.path.join(work,'fabric.mod.json'),'w',encoding='utf-8'),indent=2)
-out='D-Web-Studio-Chika-Replay-Helper-1.2.3+mc26.1.2.jar'
+out='D-Web-Studio-Chika-Replay-Helper-1.2.4+mc26.1.2.jar'
 if os.path.exists(out): os.remove(out)
 with zipfile.ZipFile(out,'w',zipfile.ZIP_DEFLATED) as z:
     for root,_,files in os.walk(work):

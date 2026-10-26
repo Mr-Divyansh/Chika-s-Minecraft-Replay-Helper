@@ -94,7 +94,7 @@ public final class UiCapture {
             return;
         }
         long now = System.nanoTime();
-        if (now - lastCaptureNanos < 16000000L || DOWNLOAD_PENDING.get()) {
+        if (now - lastCaptureNanos < 8000000L || DOWNLOAD_PENDING.get()) {
             return;
         }
         RenderTarget main = Minecraft.getInstance().getMainRenderTarget();
