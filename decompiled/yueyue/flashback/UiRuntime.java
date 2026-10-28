@@ -137,7 +137,18 @@ public final class UiRuntime {
         }
         if (Flashback.EXPORT_JOB != null) {
             ExportSettings settings = Flashback.EXPORT_JOB.getSettings();
-            return ((UiExportOptions)(Object)settings).yueyue$include() && !settings.noGui() && !settings.depthMap();
+            boolean include = UiConfig.current.include;
+            boolean noGui = false;
+            boolean depthMap = false;
+            if (settings instanceof UiExportOptions options) {
+                include = options.yueyue$include();
+            }
+            try {
+                noGui = settings.noGui();
+                depthMap = settings.depthMap();
+            } catch (RuntimeException ignored) {
+            }
+            return include && !noGui && !depthMap;
         }
         return UiConfig.current.preview;
     }
@@ -146,7 +157,7 @@ public final class UiRuntime {
         boolean follow = false;
         Minecraft client = Minecraft.getInstance();
         UiFrame frame = UiRuntime.currentFrame();
-        follow = Flashback.isInReplay() && frame != null && (Flashback.EXPORT_JOB == null ? UiConfig.current.follow : ((UiExportOptions)(Object)Flashback.EXPORT_JOB.getSettings()).yueyue$follow());
+        follow = Flashback.isInReplay() && frame != null && (Flashback.EXPORT_JOB == null ? UiConfig.current.follow : (Flashback.EXPORT_JOB.getSettings() instanceof UiExportOptions options ? options.yueyue$follow() : UiConfig.current.follow));
         if (follow && frame != null && client.level != null) {
             ReplayServer replay = Flashback.getReplayServer();
             Entity entity = replay == null ? null : client.level.getEntity(replay.getLocalPlayerId());
@@ -275,11 +286,7 @@ public final class UiRuntime {
                 char pixel = shape[y].charAt(x);
                 if (pixel == '.') continue;
                 int color = pixel == 'W' ? 0xFFFFFFFF : 0xFF000000;
-                for (int dy = 0; dy < scale; ++dy) {
-                    for (int dx = 0; dx < scale; ++dx) {
-                        graphics.fill(baseX + x * scale + dx, baseY + y * scale + dy, baseX + x * scale + dx + 1, baseY + y * scale + dy + 1, color);
-                    }
-                }
+                graphics.fill(baseX + x * scale, baseY + y * scale, baseX + x * scale + scale, baseY + y * scale + scale, color);
             }
         }
     }

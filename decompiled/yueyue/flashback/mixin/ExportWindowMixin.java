@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Decompiled with CFR 0.152.
  * 
  * Could not load the following classes:
@@ -46,7 +46,7 @@ public abstract class ExportWindowMixin {
                 UiConfig.current.record = !UiConfig.current.record;
                 save = true;
             }
-            ImGui.textWrapped((String)"\u4ec5\u5b89\u88c5\u6269\u5c55\u540e\u5f55\u5236\u7684\u7247\u6bb5\u5305\u542b\u6b64\u8f68\u9053\uff1b\u52fe\u9009\u539f\u7248\u201c\u9690\u85cfGUI\u201d\u4ecd\u4f1a\u9690\u85cf\u5b83\u3002\u754c\u9762\u6700\u591a20\u5e27/\u79d2\uff0c\u4e16\u754c\u753b\u9762\u4f7f\u7528\u539f\u5bfc\u51fa\u5e27\u7387\u3002");
+            ImGui.textWrapped((String)"\u4ec5\u5b89\u88c5\u6269\u5c55\u540e\u5f55\u5236\u7684\u7247\u6bb5\u5305\u542b\u6b64\u8f68\u9053\uff1b\u52fe\u9009\u539f\u7248\u201c\u9690\u85cfGUI\u201d\u4ecd\u4f1a\u9690\u85cf\u5b83\u3002\u754c\u9762\u6700\u591a125\u5e27/\u79d2\uff0c\u4e16\u754c\u753b\u9762\u4f7f\u7528\u539f\u5bfc\u51fa\u5e27\u7387\u3002");
             if (UiRuntime.currentFrame() == null) {
                 ImGui.textWrapped((String)"\u5f53\u524d\u7247\u6bb5\u6ca1\u6709\u771f\u5b9e\u754c\u9762\u8bb0\u5f55\uff0c\u5c06\u4f7f\u7528 Flashback \u539f\u6709\u753b\u9762\u3002");
             }

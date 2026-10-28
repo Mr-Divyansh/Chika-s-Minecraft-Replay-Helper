@@ -110,9 +110,18 @@ public abstract class RecorderMixin {
         };
         if (snapshot) {
             this.asyncReplaySaver.submit(task);
-        } else if (!((UiTaskQueue)this.asyncReplaySaver).yueyue$offer(task)) {
-            this.yueyue$pending.set(false);
-            return;
+        } else {
+            boolean offered = false;
+            try {
+                offered = ((UiTaskQueue)this.asyncReplaySaver).yueyue$offer(task);
+            } catch (RuntimeException failure) {
+                this.yueyue$pending.set(false);
+                throw failure;
+            }
+            if (!offered) {
+                this.yueyue$pending.set(false);
+                return;
+            }
         }
         this.yueyue$lastWritten = image;
         this.yueyue$segmentBytes += (long)frame.png().length;
