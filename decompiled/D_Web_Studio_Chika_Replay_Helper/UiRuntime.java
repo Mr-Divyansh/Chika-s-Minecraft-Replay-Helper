@@ -68,6 +68,10 @@ public final class UiRuntime {
     private static int previousCursorScale;
     private static long currentMouseTime;
     private static long previousMouseTime;
+    private static int smoothedMouseX;
+    private static int smoothedMouseY;
+    private static long lastExtractNanos;
+    private static boolean hasSmoothedMouse;
 
     private UiRuntime() {
     }
@@ -118,6 +122,7 @@ public final class UiRuntime {
             lastMouseFrame = frame;
         } else if (frame == null || !frame.screenOpen()) {
             hasMouseSample = false;
+            hasSmoothedMouse = false;
             lastMouseFrame = null;
         }
     }
@@ -269,19 +274,29 @@ public final class UiRuntime {
         graphics.blit(RenderPipelines.GUI_TEXTURED_PREMULTIPLIED_ALPHA, TEXTURE, (width - drawnWidth) / 2, (height - drawnHeight) / 2, 0.0f, 0.0f, drawnWidth, drawnHeight, frame.width(), frame.height(), frame.width(), frame.height());
         if (frame.screenOpen() && hasMouseSample) {
             long now = System.nanoTime();
-            double t = 1.0D;
-            if (currentMouseTime > previousMouseTime) {
-                t = (double)(now - previousMouseTime) / (double)(currentMouseTime - previousMouseTime);
+            if (!hasSmoothedMouse) {
+                smoothedMouseX = currentMouseX;
+                smoothedMouseY = currentMouseY;
+                hasSmoothedMouse = true;
+            } else {
+                long dt = now - lastExtractNanos;
+                if (dt < 0L) dt = 0L;
+                double alpha = 1.0D - Math.exp(-(double)dt / 35000000.0D);
+                if (alpha < 0.05D) alpha = 0.05D;
+                if (alpha > 0.6D) alpha = 0.6D;
+                smoothedMouseX = (int)Math.round(smoothedMouseX + (currentMouseX - smoothedMouseX) * alpha);
+                smoothedMouseY = (int)Math.round(smoothedMouseY + (currentMouseY - smoothedMouseY) * alpha);
             }
-            if (t < 0.0D) t = 0.0D;
-            if (t > 1.0D) t = 1.0D;
-            int mx = (int)Math.round(previousMouseX + (currentMouseX - previousMouseX) * t);
-            int my = (int)Math.round(previousMouseY + (currentMouseY - previousMouseY) * t);
+            lastExtractNanos = now;
+            int mx = smoothedMouseX;
+            int my = smoothedMouseY;
             int offsetX = (width - drawnWidth) / 2;
             int offsetY = (height - drawnHeight) / 2;
             int guiX = offsetX + (int)Math.round(mx * scale);
             int guiY = offsetY + (int)Math.round(my * scale);
             UiRuntime.drawCursor(graphics, guiX, guiY, currentCursorScale);
+        } else {
+            hasSmoothedMouse = false;
         }
         return true;
     }
