@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "D_Web_Studio_Chika_Replay_Helper",
-  "version": "1.2.6+mc26.1.2",
+  "version": "5.2.0+mc26.1.2",
   "name": "D Web Studio â€” Chika Replay Helper",
   "authors": ["D Web Studio"],
   "license": "MIT",
@@ -19,5 +19,10 @@
   },
   "suggests": {
     "flashback": "0.43.3"
+  },
+  "contact": {
+    "homepage": "https://github.com/Mr-Divyansh/Chika-s-Minecraft-Replay-Helper",
+    "issues": "https://github.com/Mr-Divyansh/Chika-s-Minecraft-Replay-Helper/issues",
+    "sources": "https://github.com/Mr-Divyansh/Chika-s-Minecraft-Replay-Helper.git"
   }
 }

@@ -1,6 +1,6 @@
 # D Web Studio — Chika Replay Helper
 
-## Version 1.2.6+mc26.1.2
+## Version 5.2.0+mc26.1.2
 
 Minecraft 26.1.2 compatibility extension for **Flashback** (0.43.x).
 
@@ -15,6 +15,17 @@ Minecraft 26.1.2 compatibility extension for **Flashback** (0.43.x).
 - Smooth cursor replay using interpolated mouse samples.
 - Safe fallback: segments without UI data use Flashback's original rendering.
 - Capture is limited to 125 FPS to keep memory and CPU usage predictable.
+
+## In-game control
+
+- Default key: `U` toggles GUI recording on/off.
+- The key can be changed in Minecraft's **Controls** screen under **Chika Replay Helper**.
+- A chat message confirms the new state.
+
+## Links
+
+- GitHub: https://github.com/Mr-Divyansh/Chika-s-Minecraft-Replay-Helper
+- Report issues: https://github.com/Mr-Divyansh/Chika-s-Minecraft-Replay-Helper/issues
 
 ## Requirements
 
