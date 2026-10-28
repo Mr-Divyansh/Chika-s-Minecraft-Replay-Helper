@@ -279,11 +279,7 @@ public final class UiRuntime {
                 smoothedMouseY = currentMouseY;
                 hasSmoothedMouse = true;
             } else {
-                long dt = now - lastExtractNanos;
-                if (dt < 0L) dt = 0L;
-                double alpha = 1.0D - Math.exp(-(double)dt / 35000000.0D);
-                if (alpha < 0.05D) alpha = 0.05D;
-                if (alpha > 0.6D) alpha = 0.6D;
+                double alpha = 0.18D;
                 smoothedMouseX = (int)Math.round(smoothedMouseX + (currentMouseX - smoothedMouseX) * alpha);
                 smoothedMouseY = (int)Math.round(smoothedMouseY + (currentMouseY - smoothedMouseY) * alpha);
             }
