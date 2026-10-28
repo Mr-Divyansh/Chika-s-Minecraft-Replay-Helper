@@ -1,0 +1,8 @@
+﻿{
+  "required": true,
+  "package": "D_Web_Studio_Chika_Replay_Helper.mixin",
+  "compatibilityLevel": "JAVA_25",
+  "plugin": "D_Web_Studio_Chika_Replay_Helper.UiMixinPlugin",
+  "client": ["GuiCaptureMixin","RecorderMixin","SaverQueueMixin","ReplayGuiMixin","ExportWindowMixin","ExportSettingsMixin","CameraMixin","HudInvoker"],
+  "injectors": {"defaultRequire": 1}
+}

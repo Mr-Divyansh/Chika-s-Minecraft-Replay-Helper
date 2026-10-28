@@ -6,7 +6,7 @@
  *  org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin
  *  org.spongepowered.asm.mixin.extensibility.IMixinInfo
  */
-package yueyue.flashback;
+package D_Web_Studio_Chika_Replay_Helper;
 
 import java.util.List;
 import java.util.Set;
