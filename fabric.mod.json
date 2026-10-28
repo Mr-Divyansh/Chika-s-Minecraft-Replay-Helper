@@ -1,7 +1,7 @@
-﻿{
+{
   "schemaVersion": 1,
   "id": "d_web_studio_chika_replay_helper",
-  "version": "5.2.0+mc26.1.2",
+  "version": "5.2.1+mc26.1.2",
   "name": "D Web Studio - Chika Replay Helper",
   "authors": ["D Web Studio"],
   "license": "MIT",

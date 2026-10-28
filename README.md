@@ -1,80 +1,57 @@
-# D Web Studio — Chika Replay Helper
+﻿# D Web Studio - Chika Replay Helper
 
-## Version 5.2.0+mc26.1.2
+## Version 5.2.1+mc26.1.2
 
-Minecraft 26.1.2 compatibility extension for **Flashback** (0.43.x).
+Minecraft 26.1.2 compatibility extension for Flashback (0.43.x).
 
-*Yueyue Flashback Firstperson Extension* — records the real HUD, inventory, containers and cursor while recording a replay, then replays that UI as an overlay in first person.
+Yueyue Flashback Firstperson Extension: records the real HUD, inventory, containers and mouse cursor while recording a replay, then replays that UI as a first-person overlay.
 
-## Features
+## What it does
 
-- Records the actual client GUI (HUD, inventory, containers) into Flashback replays.
+- Captures the actual client GUI during recording, including HUD, inventory, containers and cursor.
+- Stores UI frames inside the Flashback replay.
 - Replays the recorded UI as a first-person overlay during playback and export.
-- Optional follow camera: locks playback camera to the recorded player in first person.
-- Configurable include / follow / preview / record toggles in the export window.
-- Smooth cursor replay using interpolated mouse samples.
-- Safe fallback: segments without UI data use Flashback's original rendering.
-- Capture is limited to 125 FPS to keep memory and CPU usage predictable.
-
-## In-game control
-
-- Default key: `U` toggles GUI recording on/off.
-- The key can be changed in Minecraft's **Controls** screen under **Chika Replay Helper**.
-- A chat message confirms the new state.
-
-## Links
-
-- GitHub: https://github.com/Mr-Divyansh/Chika-s-Minecraft-Replay-Helper
-- Report issues: https://github.com/Mr-Divyansh/Chika-s-Minecraft-Replay-Helper/issues
+- Can lock the replay camera to the recorded player (first person).
+- Lets you choose include/follow/preview/record in Flashback export window.
+- Adds an in-game keybind (default U) to toggle GUI recording.
 
 ## Requirements
 
 - Minecraft Java Edition 26.1.2
-- Fabric Loader 0.19.3 or newer
-- Java 25 or newer
-- Flashback 0.43.3 or newer (suggested)
+- Fabric Loader 0.19.3+
+- Java 25+
+- Flashback 0.43.3+ (suggested)
 
 ## Installation
 
-1. Install Fabric Loader and Fabric API for Minecraft 26.1.2.
-2. Download Flashback separately from its author and place it in the `mods` folder.
-3. Place `D-Web-Studio-Chika-Replay-Helper-1.2.6+mc26.1.2.jar` in the `mods` folder.
-4. Launch the game.
+1. Install Fabric Loader and Fabric API.
+2. Put Flashback jar in mods.
+3. Put D-Web-Studio-Chika-Replay-Helper-5.2.1+mc26.1.2.jar in mods.
+4. Launch game.
+
+## In-game control
+
+- Default key U toggles GUI recording on/off.
+- Change it in Controls under Chika Replay Helper.
+- Chat message confirms state.
 
 ## Configuration
 
-Preferences are stored in:
+File: config/yueyue-flashback-firstperson.json (legacy name) / d_web_studio... depending build.
+Options: record, include, follow, preview.
 
-```
-config/yueyue-flashback-firstperson.json
-```
+## Performance
 
-Available options:
+- Capture up to 125 FPS.
+- Frames deduplicated before PNG encoding.
+- Texture upload and PNG decode cached per frame.
+- Mouse movement interpolated between samples for smooth replay.
 
-- `record` — record the real UI while capturing a replay.
-- `include` — include the recorded UI in exported video.
-- `follow` — lock the replay camera to the recorded player.
-- `preview` — preview the recorded UI during replay.
+## Links
 
-Toggles are also available in Flashback's export window.
-
-## Performance notes
-
-- UI capture runs at up to 125 FPS.
-- Recorded frames are deduplicated before PNG encoding.
-- Texture upload and PNG decoding are cached per frame.
-- Mouse movement is interpolated between captured samples for smooth replay.
-
-## Building from source
-
-This repository contains the extension source under `decompiled/yueyue/flashback`. The mod targets Minecraft 26.1.2 and Fabric. Flashback itself is **not** redistributed; obtain it separately.
+- GitHub: https://github.com/Mr-Divyansh/Chika-s-Minecraft-Replay-Helper
+- Issues: https://github.com/Mr-Divyansh/Chika-s-Minecraft-Replay-Helper/issues
 
 ## License
 
-MIT — see `LICENSE`.
-
-## Credits
-
-- D Web Studio
-- Flashback by Moulberry and contributors (compatibility reference only)
-- Fabric, Mixin, MixinExtras and their contributors
+MIT. See LICENSE.
