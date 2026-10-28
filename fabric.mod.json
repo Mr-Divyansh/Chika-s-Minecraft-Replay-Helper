@@ -1,17 +1,17 @@
-{
+﻿{
   "schemaVersion": 1,
-  "id": "D_Web_Studio_Chika_Replay_Helper",
+  "id": "d_web_studio_chika_replay_helper",
   "version": "5.2.0+mc26.1.2",
-  "name": "D Web Studio â€” Chika Replay Helper",
+  "name": "D Web Studio - Chika Replay Helper",
   "authors": ["D Web Studio"],
   "license": "MIT",
   "environment": "client",
   "description": "For Flashback, add real HUD, inventory and container interface recording, can choose whether to export with video.",
-  "icon": "assets/yueyue_flashback/icon.png",
+  "icon": "assets/d_web_studio_chika_replay_helper/icon.png",
   "entrypoints": {
-    "client": ["yueyue.flashback.UiBootstrap"]
+    "client": ["D_Web_Studio_Chika_Replay_Helper.UiBootstrap"]
   },
-  "mixins": ["yueyue-flashback.mixins.json"],
+  "mixins": ["D_Web_Studio_Chika_Replay_Helper.mixins.json"],
   "depends": {
     "minecraft": "26.1.2",
     "fabricloader": ">=0.19.3",

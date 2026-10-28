@@ -4,7 +4,7 @@
  * Could not load the following classes:
  *  com.moulberry.flashback.io.ReplayWriter
  */
-package yueyue.flashback;
+package D_Web_Studio_Chika_Replay_Helper;
 
 import com.moulberry.flashback.io.ReplayWriter;
 import java.util.function.Consumer;

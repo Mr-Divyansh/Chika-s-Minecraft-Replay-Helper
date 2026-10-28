@@ -23,7 +23,7 @@
  *  net.minecraft.world.entity.Entity
  *  org.slf4j.LoggerFactory
  */
-package yueyue.flashback;
+package D_Web_Studio_Chika_Replay_Helper;
 
 import com.mojang.blaze3d.platform.NativeImage;
 import com.mojang.blaze3d.platform.Window;
@@ -47,7 +47,7 @@ import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Entity;
 import org.slf4j.LoggerFactory;
-import yueyue.flashback.capture.UiCapture;
+import D_Web_Studio_Chika_Replay_Helper.capture.UiCapture;
 
 public final class UiRuntime {
     private static volatile Playback playback;
@@ -300,7 +300,7 @@ public final class UiRuntime {
     }
 
     static {
-        TEXTURE = Identifier.fromNamespaceAndPath((String)"yueyue_flashback", (String)"ui_track");
+        TEXTURE = Identifier.fromNamespaceAndPath((String)"d_web_studio_chika_replay_helper", (String)"ui_track");
         followingId = Integer.MIN_VALUE;
     }
 

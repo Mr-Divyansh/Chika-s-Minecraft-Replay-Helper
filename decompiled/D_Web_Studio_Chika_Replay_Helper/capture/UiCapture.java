@@ -15,7 +15,7 @@
  *  org.slf4j.Logger
  *  org.slf4j.LoggerFactory
  */
-package yueyue.flashback.capture;
+package D_Web_Studio_Chika_Replay_Helper.capture;
 
 import com.mojang.blaze3d.pipeline.RenderTarget;
 import com.mojang.blaze3d.pipeline.TextureTarget;
@@ -35,8 +35,8 @@ import javax.imageio.ImageIO;
 import net.minecraft.client.Minecraft;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import yueyue.flashback.UiConfig;
-import yueyue.flashback.UiRuntime;
+import D_Web_Studio_Chika_Replay_Helper.UiConfig;
+import D_Web_Studio_Chika_Replay_Helper.UiRuntime;
 
 public final class UiCapture {
     public static final int MAX_DIMENSION = 4096;

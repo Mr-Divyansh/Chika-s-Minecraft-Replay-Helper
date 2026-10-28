@@ -5,7 +5,7 @@
  *  net.fabricmc.api.ClientModInitializer
  *  net.fabricmc.loader.api.FabricLoader
  */
-package yueyue.flashback;
+package D_Web_Studio_Chika_Replay_Helper;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import net.fabricmc.api.ClientModInitializer;
@@ -19,10 +19,10 @@ import org.lwjgl.glfw.GLFW;
 public final class UiBootstrap
 implements ClientModInitializer {
     public static final KeyMapping TOGGLE_RECORD_KEY = KeyBindingHelper.registerKeyBinding(new KeyMapping(
-        "key.yueyue_flashback.toggle_record",
+        "key.d_web_studio_chika_replay_helper.toggle_record",
         InputConstants.Type.KEYSYM,
         GLFW.GLFW_KEY_U,
-        "key.categories.yueyue_flashback"
+        "key.categories.d_web_studio_chika_replay_helper"
     ));
 
     public static boolean available() {

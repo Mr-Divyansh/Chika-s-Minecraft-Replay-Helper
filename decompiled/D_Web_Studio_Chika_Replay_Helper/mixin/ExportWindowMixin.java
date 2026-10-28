@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Decompiled with CFR 0.152.
  * 
  * Could not load the following classes:
@@ -10,7 +10,7 @@
  *  org.spongepowered.asm.mixin.Mixin
  *  org.spongepowered.asm.mixin.injection.At
  */
-package yueyue.flashback.mixin;
+package D_Web_Studio_Chika_Replay_Helper.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
@@ -19,8 +19,8 @@ import imgui.moulberry90.ImGui;
 import net.minecraft.client.resources.language.I18n;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import yueyue.flashback.UiConfig;
-import yueyue.flashback.UiRuntime;
+import D_Web_Studio_Chika_Replay_Helper.UiConfig;
+import D_Web_Studio_Chika_Replay_Helper.UiRuntime;
 
 @Mixin(value={StartExportWindow.class}, remap=false)
 public abstract class ExportWindowMixin {

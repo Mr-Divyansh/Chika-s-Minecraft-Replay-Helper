@@ -1,4 +1,4 @@
-package yueyue.flashback.capture;
+package D_Web_Studio_Chika_Replay_Helper.capture;
 
 public record UiImage(long serial, int width, int height, byte[] png, boolean screenOpen, boolean crosshair, int mouseX, int mouseY, int cursorScale, Object session) {
 

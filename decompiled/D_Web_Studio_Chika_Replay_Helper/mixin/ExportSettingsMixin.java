@@ -10,7 +10,7 @@
  *  org.spongepowered.asm.mixin.injection.callback.CallbackInfo
  *  org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable
  */
-package yueyue.flashback.mixin;
+package D_Web_Studio_Chika_Replay_Helper.mixin;
 
 import com.moulberry.flashback.exporting.ExportSettings;
 import org.spongepowered.asm.mixin.Mixin;
@@ -19,8 +19,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import yueyue.flashback.UiConfig;
-import yueyue.flashback.UiExportOptions;
+import D_Web_Studio_Chika_Replay_Helper.UiConfig;
+import D_Web_Studio_Chika_Replay_Helper.UiExportOptions;
 
 @Mixin(value={ExportSettings.class}, remap=false)
 public abstract class ExportSettingsMixin

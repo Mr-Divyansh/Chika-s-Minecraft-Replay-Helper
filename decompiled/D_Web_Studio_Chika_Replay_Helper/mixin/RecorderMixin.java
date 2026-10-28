@@ -18,7 +18,7 @@
  *  org.spongepowered.asm.mixin.injection.ModifyConstant
  *  org.spongepowered.asm.mixin.injection.callback.CallbackInfo
  */
-package yueyue.flashback.mixin;
+package D_Web_Studio_Chika_Replay_Helper.mixin;
 
 import com.moulberry.flashback.action.Action;
 import com.moulberry.flashback.io.AsyncReplaySaver;
@@ -38,12 +38,12 @@ import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import yueyue.flashback.UiAction;
-import yueyue.flashback.UiConfig;
-import yueyue.flashback.UiFrame;
-import yueyue.flashback.UiTaskQueue;
-import yueyue.flashback.capture.UiCapture;
-import yueyue.flashback.capture.UiImage;
+import D_Web_Studio_Chika_Replay_Helper.UiAction;
+import D_Web_Studio_Chika_Replay_Helper.UiConfig;
+import D_Web_Studio_Chika_Replay_Helper.UiFrame;
+import D_Web_Studio_Chika_Replay_Helper.UiTaskQueue;
+import D_Web_Studio_Chika_Replay_Helper.capture.UiCapture;
+import D_Web_Studio_Chika_Replay_Helper.capture.UiImage;
 
 @Mixin(value={Recorder.class}, remap=false)
 public abstract class RecorderMixin {

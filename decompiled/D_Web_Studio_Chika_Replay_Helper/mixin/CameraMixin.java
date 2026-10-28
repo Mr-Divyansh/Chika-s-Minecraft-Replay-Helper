@@ -8,14 +8,14 @@
  *  org.spongepowered.asm.mixin.injection.Inject
  *  org.spongepowered.asm.mixin.injection.callback.CallbackInfo
  */
-package yueyue.flashback.mixin;
+package D_Web_Studio_Chika_Replay_Helper.mixin;
 
 import net.minecraft.client.renderer.GameRenderer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import yueyue.flashback.UiRuntime;
+import D_Web_Studio_Chika_Replay_Helper.UiRuntime;
 
 @Mixin(value={GameRenderer.class})
 public abstract class CameraMixin {
