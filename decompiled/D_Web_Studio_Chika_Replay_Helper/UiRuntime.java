@@ -139,25 +139,32 @@ public final class UiRuntime {
             ExportSettings settings = Flashback.EXPORT_JOB.getSettings();
             boolean include = UiConfig.current.include;
             boolean noGui = false;
-            boolean depthMap = false;
-            if (settings instanceof UiExportOptions options) {
-                include = options.yueyue$include();
+            try {
+                include = ((UiExportOptions)(Object)settings).yueyue$include();
+            } catch (RuntimeException ignored) {
             }
             try {
                 noGui = settings.noGui();
-                depthMap = settings.depthMap();
             } catch (RuntimeException ignored) {
             }
-            return include && !noGui && !depthMap;
+            return include && !noGui;
         }
         return UiConfig.current.preview;
+    }
+
+    private static boolean safeFollow(ExportSettings settings) {
+        try {
+            return ((UiExportOptions)(Object)settings).yueyue$follow();
+        } catch (RuntimeException ignored) {
+            return UiConfig.current.follow;
+        }
     }
 
     public static void updateCamera() {
         boolean follow = false;
         Minecraft client = Minecraft.getInstance();
         UiFrame frame = UiRuntime.currentFrame();
-        follow = Flashback.isInReplay() && frame != null && (Flashback.EXPORT_JOB == null ? UiConfig.current.follow : (Flashback.EXPORT_JOB.getSettings() instanceof UiExportOptions options ? options.yueyue$follow() : UiConfig.current.follow));
+        follow = Flashback.isInReplay() && frame != null && (Flashback.EXPORT_JOB == null ? UiConfig.current.follow : safeFollow(Flashback.EXPORT_JOB.getSettings()));
         if (follow && frame != null && client.level != null) {
             ReplayServer replay = Flashback.getReplayServer();
             Entity entity = replay == null ? null : client.level.getEntity(replay.getLocalPlayerId());
