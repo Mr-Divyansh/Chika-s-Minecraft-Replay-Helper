@@ -23,7 +23,7 @@
  *  net.minecraft.world.entity.Entity
  *  org.slf4j.LoggerFactory
  */
-package yueyue.flashback;
+package D_Web_Studio_Chika_Replay_Helper;
 
 import com.mojang.blaze3d.platform.NativeImage;
 import com.mojang.blaze3d.platform.Window;
@@ -47,7 +47,7 @@ import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Entity;
 import org.slf4j.LoggerFactory;
-import yueyue.flashback.capture.UiCapture;
+import D_Web_Studio_Chika_Replay_Helper.capture.UiCapture;
 
 public final class UiRuntime {
     private static volatile Playback playback;
@@ -58,6 +58,20 @@ public final class UiRuntime {
     private static CameraType previousType;
     private static boolean following;
     private static int followingId;
+    private static UiFrame lastMouseFrame;
+    private static boolean hasMouseSample;
+    private static int currentMouseX;
+    private static int currentMouseY;
+    private static int currentCursorScale;
+    private static int previousMouseX;
+    private static int previousMouseY;
+    private static int previousCursorScale;
+    private static long currentMouseTime;
+    private static long previousMouseTime;
+    private static int smoothedMouseX;
+    private static int smoothedMouseY;
+    private static long lastExtractNanos;
+    private static boolean hasSmoothedMouse;
 
     private UiRuntime() {
     }
@@ -65,6 +79,14 @@ public final class UiRuntime {
     public static void initialize() {
         ActionRegistry.register((Action)UiAction.INSTANCE);
         ClientTickEvents.END_CLIENT_TICK.register(client -> UiRuntime.updateCamera());
+        try {
+            com.moulberry.flashback.configuration.FlashbackConfigV1 config = Flashback.getConfig();
+            if (config != null && config.recording.localPlayerUpdatesPerSecond < 120) {
+                config.recording.localPlayerUpdatesPerSecond = 120;
+            }
+        }
+        catch (RuntimeException ignored) {
+        }
     }
 
     public static Object recordingSession() {
@@ -79,6 +101,30 @@ public final class UiRuntime {
 
     public static void accept(ReplayServer owner, UiFrame frame) {
         playback = new Playback(owner, frame);
+        if (frame != null && frame.screenOpen() && frame.width() > 0 && frame != lastMouseFrame) {
+            if (hasMouseSample) {
+                previousMouseX = currentMouseX;
+                previousMouseY = currentMouseY;
+                previousCursorScale = currentCursorScale;
+                previousMouseTime = currentMouseTime;
+            }
+            currentMouseX = frame.mouseX();
+            currentMouseY = frame.mouseY();
+            currentCursorScale = Math.max(1, frame.cursorScale());
+            currentMouseTime = System.nanoTime();
+            if (!hasMouseSample) {
+                previousMouseX = currentMouseX;
+                previousMouseY = currentMouseY;
+                previousCursorScale = currentCursorScale;
+                previousMouseTime = currentMouseTime;
+                hasMouseSample = true;
+            }
+            lastMouseFrame = frame;
+        } else if (frame == null || !frame.screenOpen()) {
+            hasMouseSample = false;
+            hasSmoothedMouse = false;
+            lastMouseFrame = null;
+        }
     }
 
     public static UiFrame currentFrame() {
@@ -96,16 +142,34 @@ public final class UiRuntime {
         }
         if (Flashback.EXPORT_JOB != null) {
             ExportSettings settings = Flashback.EXPORT_JOB.getSettings();
-            return ((UiExportOptions)(Object)settings).yueyue$include() && !settings.noGui() && !settings.depthMap();
+            boolean include = UiConfig.current.include;
+            boolean noGui = false;
+            try {
+                include = ((UiExportOptions)(Object)settings).yueyue$include();
+            } catch (RuntimeException ignored) {
+            }
+            try {
+                noGui = settings.noGui();
+            } catch (RuntimeException ignored) {
+            }
+            return include && !noGui;
         }
         return UiConfig.current.preview;
+    }
+
+    private static boolean safeFollow(ExportSettings settings) {
+        try {
+            return ((UiExportOptions)(Object)settings).yueyue$follow();
+        } catch (RuntimeException ignored) {
+            return UiConfig.current.follow;
+        }
     }
 
     public static void updateCamera() {
         boolean follow = false;
         Minecraft client = Minecraft.getInstance();
         UiFrame frame = UiRuntime.currentFrame();
-        follow = Flashback.isInReplay() && frame != null && (Flashback.EXPORT_JOB == null ? UiConfig.current.follow : ((UiExportOptions)(Object)Flashback.EXPORT_JOB.getSettings()).yueyue$follow());
+        follow = Flashback.isInReplay() && frame != null && (Flashback.EXPORT_JOB == null ? UiConfig.current.follow : safeFollow(Flashback.EXPORT_JOB.getSettings()));
         if (follow && frame != null && client.level != null) {
             ReplayServer replay = Flashback.getReplayServer();
             Entity entity = replay == null ? null : client.level.getEntity(replay.getLocalPlayerId());
@@ -208,7 +272,41 @@ public final class UiRuntime {
             graphics.blurBeforeThisStratum();
         }
         graphics.blit(RenderPipelines.GUI_TEXTURED_PREMULTIPLIED_ALPHA, TEXTURE, (width - drawnWidth) / 2, (height - drawnHeight) / 2, 0.0f, 0.0f, drawnWidth, drawnHeight, frame.width(), frame.height(), frame.width(), frame.height());
+        if (frame.screenOpen() && hasMouseSample) {
+            long now = System.nanoTime();
+            if (!hasSmoothedMouse) {
+                smoothedMouseX = currentMouseX;
+                smoothedMouseY = currentMouseY;
+                hasSmoothedMouse = true;
+            } else {
+                double alpha = 0.18D;
+                smoothedMouseX = (int)Math.round(smoothedMouseX + (currentMouseX - smoothedMouseX) * alpha);
+                smoothedMouseY = (int)Math.round(smoothedMouseY + (currentMouseY - smoothedMouseY) * alpha);
+            }
+            lastExtractNanos = now;
+            int mx = smoothedMouseX;
+            int my = smoothedMouseY;
+            int offsetX = (width - drawnWidth) / 2;
+            int offsetY = (height - drawnHeight) / 2;
+            int guiX = offsetX + (int)Math.round(mx * scale);
+            int guiY = offsetY + (int)Math.round(my * scale);
+            UiRuntime.drawCursor(graphics, guiX, guiY, currentCursorScale);
+        } else {
+            hasSmoothedMouse = false;
+        }
         return true;
+    }
+
+    private static void drawCursor(GuiGraphicsExtractor graphics, int baseX, int baseY, int scale) {
+        String[] shape = new String[]{"X..........", "XX.........", "XWX........", "XWWX.......", "XWWWX......", "XWWWWX.....", "XWWWWWX....", "XWWWWWWX...", "XWWWWWWWX..", "XWWWWXXXXX.", "XWWXWX.....", "XWX.WX.....", "XX..XWX....", "X...XWX....", ".....XX...."};
+        for (int y = 0; y < shape.length; ++y) {
+            for (int x = 0; x < shape[y].length(); ++x) {
+                char pixel = shape[y].charAt(x);
+                if (pixel == '.') continue;
+                int color = pixel == 'W' ? 0xFFFFFFFF : 0xFF000000;
+                graphics.fill(baseX + x * scale, baseY + y * scale, baseX + x * scale + scale, baseY + y * scale + scale, color);
+            }
+        }
     }
 
     private static void releaseTexture() {
@@ -220,7 +318,7 @@ public final class UiRuntime {
     }
 
     static {
-        TEXTURE = Identifier.fromNamespaceAndPath((String)"yueyue_flashback", (String)"ui_track");
+        TEXTURE = Identifier.fromNamespaceAndPath((String)"d_web_studio_chika_replay_helper", (String)"ui_track");
         followingId = Integer.MIN_VALUE;
     }
 

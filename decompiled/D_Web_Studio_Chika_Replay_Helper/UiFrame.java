@@ -1,51 +1,57 @@
-/*
- * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  net.minecraft.network.RegistryFriendlyByteBuf
- */
-package yueyue.flashback;
+package D_Web_Studio_Chika_Replay_Helper;
 
 import java.nio.ByteBuffer;
 import java.util.UUID;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 
-public record UiFrame(UUID player, int width, int height, boolean screenOpen, boolean crosshair, byte[] png) {
+public record UiFrame(UUID player, int width, int height, boolean screenOpen, boolean crosshair, int mouseX, int mouseY, int cursorScale, byte[] png) {
 
-    public UiFrame(UUID player, int width, int height, boolean screenOpen, boolean crosshair, byte[] png) {
+    public UiFrame(UUID player, int width, int height, boolean screenOpen, boolean crosshair, int mouseX, int mouseY, int cursorScale, byte[] png) {
         this.player = player;
         this.width = width;
         this.height = height;
         this.screenOpen = screenOpen;
         this.crosshair = crosshair;
+        this.mouseX = mouseX;
+        this.mouseY = mouseY;
+        this.cursorScale = cursorScale;
         this.png = png;
     }
 
     public void write(RegistryFriendlyByteBuf buffer) {
-        buffer.writeVarInt(1);
+        buffer.writeVarInt(2);
         buffer.writeUUID(this.player);
         buffer.writeVarInt(this.width);
         buffer.writeVarInt(this.height);
         buffer.writeBoolean(this.screenOpen);
         buffer.writeBoolean(this.crosshair);
+        buffer.writeVarInt(this.mouseX);
+        buffer.writeVarInt(this.mouseY);
+        buffer.writeVarInt(this.cursorScale);
         buffer.writeByteArray(this.png);
     }
 
     public static UiFrame read(RegistryFriendlyByteBuf buffer) {
-        if (buffer.readVarInt() != 1) {
-            throw new IllegalArgumentException("Unsupported UI frame version");
-        }
+        int version = buffer.readVarInt();
         UUID player = buffer.readUUID();
         int width = buffer.readVarInt();
         int height = buffer.readVarInt();
         boolean screenOpen = buffer.readBoolean();
         boolean crosshair = buffer.readBoolean();
+        int mouseX = 0;
+        int mouseY = 0;
+        int cursorScale = 1;
+        if (version >= 2) {
+            mouseX = buffer.readVarInt();
+            mouseY = buffer.readVarInt();
+            cursorScale = buffer.readVarInt();
+        }
         byte[] png = buffer.readByteArray(0x2000000);
         if (png.length == 0 && width == 0 && height == 0) {
-            return new UiFrame(player, 0, 0, false, false, png);
+            return new UiFrame(player, 0, 0, false, false, 0, 0, 1, png);
         }
         UiFrame.validatePng(png, width, height);
-        return new UiFrame(player, width, height, screenOpen, crosshair, png);
+        return new UiFrame(player, width, height, screenOpen, crosshair, mouseX, mouseY, cursorScale, png);
     }
 
     public static void validatePng(byte[] bytes, int width, int height) {
@@ -58,28 +64,13 @@ public record UiFrame(UUID player, int width, int height, boolean screenOpen, bo
         }
     }
 
-    public UUID player() {
-        return this.player;
-    }
-
-    public int width() {
-        return this.width;
-    }
-
-    public int height() {
-        return this.height;
-    }
-
-    public boolean screenOpen() {
-        return this.screenOpen;
-    }
-
-    public boolean crosshair() {
-        return this.crosshair;
-    }
-
-    public byte[] png() {
-        return this.png;
-    }
+    public UUID player() { return this.player; }
+    public int width() { return this.width; }
+    public int height() { return this.height; }
+    public boolean screenOpen() { return this.screenOpen; }
+    public boolean crosshair() { return this.crosshair; }
+    public int mouseX() { return this.mouseX; }
+    public int mouseY() { return this.mouseY; }
+    public int cursorScale() { return this.cursorScale; }
+    public byte[] png() { return this.png; }
 }
-

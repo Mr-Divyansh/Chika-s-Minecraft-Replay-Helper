@@ -18,7 +18,7 @@
  *  org.spongepowered.asm.mixin.injection.ModifyConstant
  *  org.spongepowered.asm.mixin.injection.callback.CallbackInfo
  */
-package yueyue.flashback.mixin;
+package D_Web_Studio_Chika_Replay_Helper.mixin;
 
 import com.moulberry.flashback.action.Action;
 import com.moulberry.flashback.io.AsyncReplaySaver;
@@ -38,12 +38,12 @@ import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import yueyue.flashback.UiAction;
-import yueyue.flashback.UiConfig;
-import yueyue.flashback.UiFrame;
-import yueyue.flashback.UiTaskQueue;
-import yueyue.flashback.capture.UiCapture;
-import yueyue.flashback.capture.UiImage;
+import D_Web_Studio_Chika_Replay_Helper.UiAction;
+import D_Web_Studio_Chika_Replay_Helper.UiConfig;
+import D_Web_Studio_Chika_Replay_Helper.UiFrame;
+import D_Web_Studio_Chika_Replay_Helper.UiTaskQueue;
+import D_Web_Studio_Chika_Replay_Helper.capture.UiCapture;
+import D_Web_Studio_Chika_Replay_Helper.capture.UiImage;
 
 @Mixin(value={Recorder.class}, remap=false)
 public abstract class RecorderMixin {
@@ -92,7 +92,7 @@ public abstract class RecorderMixin {
         }
         LocalPlayer player = Minecraft.getInstance().player;
         UUID uuid = player == null ? new UUID(0L, 0L) : player.getUUID();
-        frame = image == null ? new UiFrame(uuid, 0, 0, false, false, new byte[0]) : new UiFrame(uuid, image.width(), image.height(), image.screenOpen(), image.crosshair(), image.png());
+        frame = image == null ? new UiFrame(uuid, 0, 0, false, false, 0, 0, 1, new byte[0]) : new UiFrame(uuid, image.width(), image.height(), image.screenOpen(), image.crosshair(), image.mouseX(), image.mouseY(), image.cursorScale(), image.png());
         if (!snapshot && !this.yueyue$pending.compareAndSet(false, true)) {
             return;
         }
@@ -110,9 +110,18 @@ public abstract class RecorderMixin {
         };
         if (snapshot) {
             this.asyncReplaySaver.submit(task);
-        } else if (!((UiTaskQueue)this.asyncReplaySaver).yueyue$offer(task)) {
-            this.yueyue$pending.set(false);
-            return;
+        } else {
+            boolean offered = false;
+            try {
+                offered = ((UiTaskQueue)this.asyncReplaySaver).yueyue$offer(task);
+            } catch (RuntimeException failure) {
+                this.yueyue$pending.set(false);
+                throw failure;
+            }
+            if (!offered) {
+                this.yueyue$pending.set(false);
+                return;
+            }
         }
         this.yueyue$lastWritten = image;
         this.yueyue$segmentBytes += (long)frame.png().length;

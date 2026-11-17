@@ -7,7 +7,7 @@
  *  net.fabricmc.loader.api.FabricLoader
  *  org.slf4j.LoggerFactory
  */
-package yueyue.flashback;
+package D_Web_Studio_Chika_Replay_Helper;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

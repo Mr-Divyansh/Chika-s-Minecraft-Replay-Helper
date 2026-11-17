@@ -8,7 +8,7 @@
  *  net.minecraft.resources.Identifier
  *  org.slf4j.LoggerFactory
  */
-package yueyue.flashback;
+package D_Web_Studio_Chika_Replay_Helper;
 
 import com.moulberry.flashback.action.Action;
 import com.moulberry.flashback.playback.ReplayServer;
@@ -19,7 +19,7 @@ import org.slf4j.LoggerFactory;
 public final class UiAction
 implements Action {
     public static final UiAction INSTANCE = new UiAction();
-    private static final Identifier NAME = Identifier.fromNamespaceAndPath((String)"yueyue", (String)"first_person_ui_optional");
+    private static final Identifier NAME = Identifier.fromNamespaceAndPath((String)"d_web_studio_chika_replay_helper", (String)"first_person_ui_optional");
 
     private UiAction() {
     }

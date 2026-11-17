@@ -8,7 +8,7 @@
  *  org.spongepowered.asm.mixin.Mixin
  *  org.spongepowered.asm.mixin.gen.Invoker
  */
-package yueyue.flashback.mixin;
+package D_Web_Studio_Chika_Replay_Helper.mixin;
 
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.Gui;

@@ -1,7 +1,7 @@
 /*
  * Updated for Minecraft 26.1.2
  */
-package yueyue.flashback.mixin;
+package D_Web_Studio_Chika_Replay_Helper.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import yueyue.flashback.capture.UiCapture;
+import D_Web_Studio_Chika_Replay_Helper.capture.UiCapture;
 
 @Mixin(value={GuiRenderer.class})
 public abstract class GuiCaptureMixin {
